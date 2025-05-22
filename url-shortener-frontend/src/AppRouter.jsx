@@ -8,6 +8,8 @@ import DashboardLayout from './components/Dashboard/DashboardLayout'
 import Navbar from './components/NavBar'
 import { Route, Routes } from 'react-router-dom'
 import ShortenUrlPage from './components/ShortenUrlPage'
+import PrivateRoute from './PrivateRoute'
+import ErrorPage from './components/ErrorPage'
 
 const AppRouter = () => {
     return (
@@ -17,9 +19,13 @@ const AppRouter = () => {
             <Routes>
                 <Route path='/' element={<LandingPage />} />
                 <Route path='/about' element={<AboutPage />} />
-                <Route path='/register' element={<RegisterPage />} />
-                <Route path='/login' element={<LoginPage />} />
-                <Route path='/dashboard' element={<DashboardLayout />} />
+                
+                <Route path='/register' element={<PrivateRoute publicPage={true}><RegisterPage /></PrivateRoute>} />
+                <Route path='/login' element={<PrivateRoute publicPage={true}><LoginPage /></PrivateRoute>} />
+                
+                <Route path='/dashboard' element={<PrivateRoute publicPage={false}><DashboardLayout /></PrivateRoute>} />
+                <Route path='/error' element={<ErrorPage message="ERROR Occured"/>}/>
+                <Route path='*' element={<ErrorPage message="We can't seem to find the page you are looking for!"/>}/>
             </Routes>
             <Footer />
         </>
